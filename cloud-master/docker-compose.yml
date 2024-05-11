@@ -36,8 +36,7 @@ services:
       - /bin/bash
       - -c
       - |
-        var=$${TYPE_RUN_APP}
-        if [[ $$var == 'dev' ]]; then
+        if [[ $${TYPE_RUN_APP} == 'dev' ]]; then
           npm run dev
         else
           node ./.output/server/index.mjs
