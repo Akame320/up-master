@@ -15,4 +15,10 @@ export default defineNuxtConfig({
   },
 
   modules: ['@nuxtjs/tailwindcss', '@nuxt/eslint'],
+
+  runtimeConfig: {
+    dbName: 'NUXT_DB_NAME', // `dev_token` is the default value
+    dbUser: 'NUXT_DB_USER', // `dev_token` is the default value
+    dbPassword: 'NUXT_DB_PASSWORD', // `dev_token` is the default value
+  },
 })

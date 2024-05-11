@@ -6,11 +6,11 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: cloud-master
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
-      - "4040:5432"
+      - "${DB_EXPOSE_PORT}:5432"
     volumes:
       - db:/var/lib/postgresql/data/
 
@@ -18,21 +18,30 @@ services:
     image: adminer
     restart: always
     ports:
-      - 4050:8080
+      - ${ADMIN_EXPOSE_PORT}:8080
 
   node:
     image: "node:18"
     user: "node"
     working_dir: /home/node/app
     environment:
-      - NODE_ENV=production
+      - TYPE_RUN_APP=${TYPE_RUN_APP}
     volumes:
       - ./:/home/node/app
     expose:
-      - 5000
+      - ${APP_EXPOSE_PORT}
     ports:
-      - 5000:3000
-    command: "npm run dev"
+      - ${APP_EXPOSE_PORT}:3000
+    command:
+      - /bin/bash
+      - -c
+      - |
+        var=$${TYPE_RUN_APP}
+        if [[ $$var == 'dev' ]]; then
+          npm run dev
+        else
+          node ./.output/server/index.mjs
+        fi
 
 volumes:
   db:

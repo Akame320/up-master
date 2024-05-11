@@ -1,5 +1,6 @@
 import DataBase from '~/server/db'
 
 export default defineNitroPlugin((nitroApp) => {
-  DataBase.mount()
+  const { dbname, dbUser, dbPassword } = useRuntimeConfig()
+  DataBase.mount(dbname, dbUser, dbPassword)
 })

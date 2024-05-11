@@ -27,8 +27,8 @@ class DataBase {
   instance: null | any = null
   models: null | any = null
 
-  async mount() {
-    this.instance = new Sequelize('cloud-master', 'postgres', 'root', {
+  async mount(dbname: string, dbUser: string, dbPassword: string) {
+    this.instance = new Sequelize(dbname, dbUser, dbPassword, {
       host: 'db',
       dialect: 'postgres',
     })
