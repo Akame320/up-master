@@ -2,8 +2,8 @@
 import useVuelidate from '@vuelidate/core'
 import { email, minLength, required, sameAs } from '@vuelidate/validators'
 
-import AppInputText from 'public/components/common/ui/AppInputText.vue'
-import AuthForm from 'public/components/auth/AuthForm.vue'
+import AppInputText from '~/components/common/ui/AppInputText.vue'
+import AuthForm from '~/components/auth/AuthForm.vue'
 
 const router = useRouter()
 
@@ -33,7 +33,11 @@ const rules = {
 const v$ = useVuelidate(rules, form.value)
 
 const avatar = computed(() => {
-  return form.value.firstName + form.value.lastName
+  if (form.value.firstName.length > 0 && form.value.lastName.length > 0) {
+    return form.value.firstName?.[0] + form.value.lastName?.[0] + ''
+  } else {
+    return ''
+  }
 })
 
 const onSubmit = async () => {
@@ -57,7 +61,7 @@ const onSubmit = async () => {
   })
 
   if (newUser.status !== 200) {
-    error.value = newUser.statusText
+    error.value = newUser._data.message
     loading.value = false
 
     return
@@ -70,7 +74,7 @@ const onSubmit = async () => {
   })
 
   if (login.status !== 200) {
-    error.value = login.statusText
+    error.value = login._data.message
     loading.value = false
 
     return
@@ -89,6 +93,7 @@ const onSubmit = async () => {
     :avatar="avatar"
     title="Регистрация"
     btn-text="Зарегистрироваться"
+    :error="error"
     @click="onSubmit"
   >
     <AppInputText

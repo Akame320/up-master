@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppButton from 'public/components/common/ui/AppButton.vue'
+import AppButton from '../common/ui/AppButton.vue'
 
 export interface Props {
   title: string

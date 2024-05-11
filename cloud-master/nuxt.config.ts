@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  css: ["./public/assets/css/main.css", "./public/assets/css/fonts.css"],
+  css: ['./assets/css/main.css', './assets/css/fonts.css'],
 
   postcss: {
     plugins: {
@@ -11,9 +11,8 @@ export default defineNuxtConfig({
   },
 
   dir: {
-    pages: "public/pages",
-    middleware: "server/middleware",
+    middleware: 'server/middleware',
   },
 
-  modules: ["@nuxtjs/tailwindcss", "@nuxt/eslint"],
-});
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/eslint'],
+})

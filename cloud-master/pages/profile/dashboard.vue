@@ -2,6 +2,19 @@
 import { Icon } from '@iconify/vue'
 
 definePageMeta({})
+
+const router = useRouter()
+
+const logout = async () => {
+  const resp = await $fetch.raw('/api/auth/logout', {
+    method: 'GET',
+    ignoreResponseError: true,
+  })
+
+  if (resp.status === 204) {
+    await router.push('/auth/login')
+  }
+}
 </script>
 
 <template>
@@ -39,6 +52,7 @@ definePageMeta({})
                 <ul class="text-xl font-medium">
                   <li
                     class="py-4 px-6 transition-all hover:bg-gray-100 active:bg-gray-200 cursor-pointer text-red-500"
+                    @click="logout"
                   >
                     <div class="flex items-center gap-2">
                       <Icon class="w-6 h-6" icon="material-symbols:logout" />

@@ -2,17 +2,14 @@
 import useVuelidate from '@vuelidate/core'
 import { email, minLength, required } from '@vuelidate/validators'
 
-import AppInputText from 'public/components/common/ui/AppInputText.vue'
-import AuthForm from 'public/components/auth/AuthForm.vue'
+import AppInputText from '~/components/common/ui/AppInputText.vue'
+import AuthForm from '~/components/auth/AuthForm.vue'
 
 const router = useRouter()
 
 const form = ref({
   email: '',
   password: '',
-  confirmPassword: '',
-  firstName: '',
-  lastName: '',
 })
 
 const showError = ref(false)

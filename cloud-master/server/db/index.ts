@@ -1,9 +1,25 @@
 import { Sequelize } from 'sequelize'
 import user from '~/server/db/models/user'
+import userData from '~/server/db/models/user-data'
+import sensors from '~/server/db/models/sensors'
 
 const modelsCombiner = (sequelize: any) => {
+  const User = user(sequelize)
+  const Sensors = sensors(sequelize)
+  const Data = userData(sequelize)
+
+  User.hasMany(Sensors, {
+    foreignKey: 'userId',
+  })
+
+  Sensors.hasMany(Data, {
+    foreignKey: 'sensorId',
+  })
+
   return {
-    User: user(sequelize),
+    User,
+    Sensors,
+    Data,
   }
 }
 
@@ -21,7 +37,6 @@ class DataBase {
 
     try {
       await this.instance.authenticate()
-      await this.instance.sync({ force: true })
 
       console.log('Data Base -:- start work')
     } catch (error) {

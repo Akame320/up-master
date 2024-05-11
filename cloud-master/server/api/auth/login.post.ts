@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
   if (!email || !password) {
     throw createError({
       status: 500,
-      message: 'There is not enough data to process the request',
+      message: 'Данные не полные',
     })
   }
 
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
   if (!user) {
     throw createError({
       status: 500,
-      message: 'Email is not exists or invalid',
+      message: 'Учетной записи с этой почтой не нашлось',
     })
   }
 
@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
   if (!isValidPassword) {
     throw createError({
       status: 500,
-      message: 'Password is not valid',
+      message: 'Пароль не правильный',
     })
   }
 

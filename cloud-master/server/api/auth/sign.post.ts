@@ -7,19 +7,25 @@ export default defineEventHandler(async (event) => {
   const { User } = db.get()
 
   if (!email || !firstName || !lastName || !password) {
-    setResponseStatus(event, 503, 'Not data')
-    return
+    throw createError({
+      status: 500,
+      message: 'Данные не заполнены',
+    })
   }
 
   const user = await User.findOne({ where: { email } })
   if (user) {
-    setResponseStatus(event, 503, 'User is not exist')
-    return
+    throw createError({
+      status: 500,
+      message: 'Email уже зарегистрирован',
+    })
   }
 
   if (password !== confirmPassword) {
-    setResponseStatus(event, 503, 'Password mismatch')
-    return
+    throw createError({
+      status: 500,
+      message: 'Пароли не совпадают',
+    })
   }
 
   const hasPassword = await bcrypt.hash(password, 6)
