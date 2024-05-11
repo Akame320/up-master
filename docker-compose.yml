@@ -21,27 +21,26 @@ services:
       - ${ADMIN_EXPOSE_PORT}:8080
 
   node:
-    image: "node:18"
-    user: "node"
-    working_dir: /home/node/app
+    image: flightline-client:latest
+    command: ./development-startup.sh
     environment:
       - TYPE_RUN_APP=${TYPE_RUN_APP}
-    volumes:
-      - ./:/home/node/app
-    expose:
-      - ${APP_EXPOSE_PORT}
     ports:
       - ${APP_EXPOSE_PORT}:3000
-    command:
-      - /bin/bash
-      - -c
-      - |
-        if [[ $${TYPE_RUN_APP} == 'dev' ]]; then
-          npm run dev
-        else
-          node ./.output/server/index.mjs
-        fi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/project
+    restart: always
+    networks:
+      - master-cloud
 
 volumes:
   db:
     driver: local
+
+networks:
+  master-cloud:
+    external:
+      name: master-cloud
